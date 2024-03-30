@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { existsSync, mkdirSync } from 'fs';
 import * as path from 'path';
 import { PlaneModule } from './plane/plane.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { PlaneModule } from './plane/plane.module';
       isGlobal: true,
     }),
     PlaneModule,
+    BookingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
