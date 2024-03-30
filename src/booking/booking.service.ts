@@ -6,6 +6,7 @@ import { BookingRepository } from './booking.repository';
 import { Observable, lastValueFrom } from 'rxjs';
 import { SubscriberPattern } from 'src/common/interfaces/subscriber-pattern.interface';
 import { CreateBookingDto } from './dto/create-booking.dto';
+import { RetrieveBookingsDto } from './dto/retrieve-bookings.dto';
 
 @Injectable()
 export class BookingService {
@@ -36,6 +37,48 @@ export class BookingService {
       }
 
       return await this.bookingRepository.createBooking(createBookingData());
+    } catch (error) {
+      throw new RpcException(
+        this.errR({
+          message: error?.message ? error.message : this.ISE,
+          status: error?.error?.status,
+        }),
+      );
+    }
+  }
+
+  /**
+   * @Responsibility: flight booking service method to retrieve all flight bookings with pagination
+   *
+   * @param retrieveBookingsDto
+   * @returns {Promise<any>}
+   */
+
+  async retrieveAllBookings(
+    retrieveBookingsDto: RetrieveBookingsDto,
+  ): Promise<any> {
+    try {
+      const {
+        limit,
+        batch,
+        search,
+        userId,
+        flag,
+        filterStartDate,
+        filterEndDate,
+      } = retrieveBookingsDto;
+      const { data, count } =
+        await this.bookingRepository.retrieveAllBookings<object>({
+          limit,
+          batch,
+          search,
+          userId,
+          flag,
+          filterStartDate,
+          filterEndDate,
+        });
+
+      return { data, count };
     } catch (error) {
       throw new RpcException(
         this.errR({

@@ -6,6 +6,7 @@ export enum SubscriberPattern {
   RETRIEVE_ALL_PLANES = 'retrieve_all_planes',
   DELETE_PLANE = 'delete_plane',
   CREATE_BOOKING = 'create_booking',
+  RETRIEVE_ALL_BOOKINGS = 'retrieve_all_bookings',
 
   /******************************** USERS *************************************/
   USER_PROFILE = 'user_profile',

@@ -4,6 +4,7 @@ import { PlaneService } from './plane.service';
 import { SubscriberPattern } from '../common/interfaces/subscriber-pattern.interface';
 import { CreatePlaneDto, UpdatePlaneDto } from './dto/create-plane.dto';
 import { RetrievePlanesDto } from './dto/retrieve-planes.dto';
+import { RetrieveBookingsDto } from 'src/booking/dto/retrieve-bookings.dto';
 
 @Controller()
 export class PlaneController {

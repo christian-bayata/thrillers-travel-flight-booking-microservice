@@ -7,6 +7,7 @@ import { PlaneRepository } from './plane.repository';
 import { RetrievePlanesDto } from './dto/retrieve-planes.dto';
 import { Observable, lastValueFrom } from 'rxjs';
 import { SubscriberPattern } from 'src/common/interfaces/subscriber-pattern.interface';
+import { RetrieveBookingsDto } from 'src/booking/dto/retrieve-bookings.dto';
 
 @Injectable()
 export class PlaneService {
@@ -19,7 +20,7 @@ export class PlaneService {
   private readonly ISE: string = 'Internal Server Error';
 
   /**
-   * @Responsibility: auth service method to create a new plane info
+   * @Responsibility: flight booking service method to create a new plane info
    *
    * @param createPlaneDto
    * @returns {Promise<any>}
@@ -59,7 +60,7 @@ export class PlaneService {
   }
 
   /**
-   * @Responsibility: auth service method to update plane info
+   * @Responsibility: flight booking service method to update plane info
    *
    * @param updatePlaneDto
    * @returns {Promise<any>}
@@ -98,7 +99,7 @@ export class PlaneService {
   }
 
   /**
-   * @Responsibility: auth service method to retrieve plane info
+   * @Responsibility: flight booking service method to retrieve plane info
    *
    * @param planeId
    * @returns {Promise<any>}
@@ -130,7 +131,7 @@ export class PlaneService {
   }
 
   /**
-   * @Responsibility: auth service method to retrieve all planes with pagination
+   * @Responsibility: flight booking service method to retrieve all planes with pagination
    *
    * @param retrievePlanesDto
    * @returns {Promise<any>}
@@ -177,7 +178,7 @@ export class PlaneService {
   }
 
   /**
-   * @Responsibility: auth service method to delete plane info
+   * @Responsibility: flight booking service method to delete plane info
    *
    * @param planeId
    * @returns {Promise<any>}
