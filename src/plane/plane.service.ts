@@ -27,6 +27,7 @@ export class PlaneService {
 
   async createPlane(createPlaneDto: CreatePlaneDto): Promise<any> {
     try {
+      // console.log(createPlaneDto);
       const thePlane = await this.planeRepository.findPlane({
         registrationNumber: createPlaneDto?.registrationNumber,
       });

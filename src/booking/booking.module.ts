@@ -6,14 +6,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { JwtModule } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { BookingRepository } from './booking.repository';
-// import { Plane, PlaneSchema } from './schemas/plane.schema';
-// import { PlaneUtility } from './plane.utility';
+import { Booking, BookingSchema } from './schemas/booking.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      /* { name: Plane.name, schema: PlaneSchema } */
-    ]),
+    MongooseModule.forFeature([{ name: Booking.name, schema: BookingSchema }]),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -55,6 +52,6 @@ import { BookingRepository } from './booking.repository';
     ]),
   ],
   controllers: [BookingController],
-  providers: [BookingService, BookingRepository /* PlaneUtility */],
+  providers: [BookingService, BookingRepository],
 })
 export class BookingModule {}

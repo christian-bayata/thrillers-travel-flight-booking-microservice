@@ -2,24 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PropDataInput } from 'src/common/utils/util.interface';
-// import { Plane, PlaneDocument } from './schemas/plane.schema';
+import { Booking, BookingDocument } from './schemas/booking.schema';
 
 @Injectable()
 export class BookingRepository {
-  constructor() {} // @InjectModel(Plane.name) private planeModel: Model<PlaneDocument>,
+  constructor(
+    @InjectModel(Booking.name) private bookingModel: Model<BookingDocument>,
+  ) {}
 
   /**
-   * @Responsibility: Repo for creating a plane
+   * @Responsibility: Repo for creating a booking
    *
    * @param data
-   * @returns {Promise<PlaneDocument>}
+   * @returns {Promise<BookingDocument>}
    */
 
-  // async createPlane(data: any): Promise<PlaneDocument> {
-  //   try {
-  //     return await this.planeModel.create(data);
-  //   } catch (error) {
-  //     throw new Error(error?.messsage);
-  //   }
-  // }
+  async createBooking(data: any): Promise<BookingDocument> {
+    try {
+      return await this.bookingModel.create(data);
+    } catch (error) {
+      throw new Error(error?.messsage);
+    }
+  }
 }
