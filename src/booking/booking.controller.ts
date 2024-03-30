@@ -24,4 +24,9 @@ export class BookingController {
       retrieveAllBookingsDto,
     );
   }
+
+  @MessagePattern({ cmd: SubscriberPattern.RETRIEVE_BOOKING })
+  async retrieveSingleBooking(@Payload() bookingId: string): Promise<any> {
+    return await this.bookingService.retrieveSingleBooking(bookingId);
+  }
 }

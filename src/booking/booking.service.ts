@@ -89,6 +89,38 @@ export class BookingService {
     }
   }
 
+  /**
+   * @Responsibility: flight booking service method to retrieve single flight booking info
+   *
+   * @param bookingId
+   * @returns {Promise<any>}
+   */
+
+  async retrieveSingleBooking(bookingId: string): Promise<any> {
+    try {
+      const theBoking = await this.bookingRepository.findBooking({
+        _id: bookingId,
+      });
+      if (!theBoking) {
+        throw new RpcException(
+          this.errR({
+            message: 'Plane not found',
+            status: HttpStatus.NOT_FOUND,
+          }),
+        );
+      }
+
+      return theBoking;
+    } catch (error) {
+      throw new RpcException(
+        this.errR({
+          message: error?.message ? error.message : this.ISE,
+          status: error?.error?.status,
+        }),
+      );
+    }
+  }
+
   /*****************************************************************************************************************************
    *
    ****************************************PRIVATE FUNCTIONS/METHODS **********************************

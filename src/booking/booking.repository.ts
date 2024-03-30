@@ -109,4 +109,18 @@ export class BookingRepository {
     const count = await this.bookingModel.countDocuments(query);
     return { data, count };
   }
+
+  /**
+   * @Responsibility: Repo to retrieve single booking detail
+   *
+   * @param where
+   * @returns {Promise<BookingDocument>}
+   */
+
+  async findBooking(
+    where: PropDataInput,
+    attributes?: string,
+  ): Promise<BookingDocument> {
+    return await this.bookingModel.findOne(where).lean().select(attributes);
+  }
 }
