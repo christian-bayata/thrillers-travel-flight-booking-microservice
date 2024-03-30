@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { existsSync, mkdirSync } from 'fs';
 import * as path from 'path';
+import { PlaneModule } from './plane/plane.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import * as path from 'path';
       envFilePath: '.env',
       isGlobal: true,
     }),
+    PlaneModule,
   ],
   controllers: [AppController],
   providers: [AppService],
