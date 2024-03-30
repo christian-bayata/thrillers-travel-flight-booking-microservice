@@ -175,6 +175,40 @@ export class PlaneService {
     }
   }
 
+  /**
+   * @Responsibility: auth service method to delete plane info
+   *
+   * @param planeId
+   * @returns {Promise<any>}
+   */
+
+  async deleteSinglePlane(planeId: string): Promise<any> {
+    try {
+      const thePlane = await this.planeRepository.findPlane({
+        _id: planeId,
+      });
+      if (!thePlane) {
+        throw new RpcException(
+          this.errR({
+            message: 'Plane not found',
+            status: HttpStatus.NOT_FOUND,
+          }),
+        );
+      }
+
+      await this.planeRepository.deletePlane({ _id: thePlane?._id });
+
+      return {};
+    } catch (error) {
+      throw new RpcException(
+        this.errR({
+          message: error?.message ? error.message : this.ISE,
+          status: error?.error?.status,
+        }),
+      );
+    }
+  }
+
   /*****************************************************************************************************************************
    *
    ****************************************PRIVATE FUNCTIONS/METHODS **********************************

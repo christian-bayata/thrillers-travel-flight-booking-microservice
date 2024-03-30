@@ -30,4 +30,9 @@ export class PlaneController {
   ): Promise<any> {
     return await this.planeService.retrieveAllPlanes(retrievePlanesDto);
   }
+
+  @MessagePattern({ cmd: SubscriberPattern.DELETE_PLANE })
+  async deleteSinglePlane(@Payload() planeId: string): Promise<any> {
+    return await this.planeService.deleteSinglePlane(planeId);
+  }
 }

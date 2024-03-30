@@ -105,4 +105,15 @@ export class PlaneRepository {
     const count = await this.planeModel.countDocuments(query);
     return { data, count };
   }
+
+  /**
+   * @Responsibility: Repo for deleting a plane
+   *
+   * @param where
+   * @returns {Promise<PlaneDocument>}
+   */
+
+  async deletePlane(where: PropDataInput): Promise<PlaneDocument> {
+    return await this.planeModel.findOneAndDelete(where);
+  }
 }
