@@ -29,6 +29,15 @@ export class Booking {
   @Prop({ type: Date, required: true })
   arrivalDate: Date;
 
+  @Prop({ type: Date, required: true })
+  approvalDate: Date;
+
+  @Prop({ type: Date, required: true })
+  rejectionDate: Date;
+
+  @Prop({ type: String, required: true })
+  rejectionReason: string;
+
   @Prop({ type: String, required: true })
   planeId: string;
 

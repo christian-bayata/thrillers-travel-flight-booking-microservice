@@ -4,6 +4,7 @@ import { BookingService } from './booking.service';
 import { SubscriberPattern } from '../common/interfaces/subscriber-pattern.interface';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { RetrieveBookingsDto } from './dto/retrieve-bookings.dto';
+import { BookingActionDto } from './dto/booking-action.dto';
 
 @Controller()
 export class BookingController {
@@ -28,5 +29,12 @@ export class BookingController {
   @MessagePattern({ cmd: SubscriberPattern.RETRIEVE_BOOKING })
   async retrieveSingleBooking(@Payload() bookingId: string): Promise<any> {
     return await this.bookingService.retrieveSingleBooking(bookingId);
+  }
+
+  @MessagePattern({ cmd: SubscriberPattern.BOOKING_ACTION })
+  async bookingAction(
+    @Payload() bookingActionDto: BookingActionDto,
+  ): Promise<any> {
+    return await this.bookingService.bookingAction(bookingActionDto);
   }
 }

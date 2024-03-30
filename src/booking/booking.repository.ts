@@ -123,4 +123,21 @@ export class BookingRepository {
   ): Promise<BookingDocument> {
     return await this.bookingModel.findOne(where).lean().select(attributes);
   }
+
+  /**
+   * @Responsibility: Repo for updating a flight booking
+   *
+   * @param where
+   * @param data
+   * @returns {Promise<BookingDocument>}
+   */
+
+  async updateBooking(
+    where: PropDataInput,
+    data: any,
+  ): Promise<BookingDocument> {
+    return await this.bookingModel.findOneAndUpdate(where, data, {
+      new: true,
+    });
+  }
 }

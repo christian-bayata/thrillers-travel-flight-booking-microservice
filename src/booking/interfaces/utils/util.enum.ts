@@ -3,3 +3,8 @@ export enum BookingStatus {
   APPROVED = 'approved',
   REJECTED = 'rejected',
 }
+
+export enum BookingActionFlags {
+  APPROVE = 'approve',
+  REJECT = 'reject',
+}

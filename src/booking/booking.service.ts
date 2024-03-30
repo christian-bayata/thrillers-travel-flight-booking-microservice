@@ -3,10 +3,14 @@ import { ConfigService } from '@nestjs/config';
 import { ErrorResponse } from 'src/common/interfaces/error-response.interface';
 import { ClientProxy, RpcException } from '@nestjs/microservices';
 import { BookingRepository } from './booking.repository';
-import { Observable, lastValueFrom } from 'rxjs';
-import { SubscriberPattern } from 'src/common/interfaces/subscriber-pattern.interface';
+import * as moment from 'moment';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { RetrieveBookingsDto } from './dto/retrieve-bookings.dto';
+import {
+  BookingActionFlags,
+  BookingStatus,
+} from './interfaces/utils/util.enum';
+import { BookingActionDto } from './dto/booking-action.dto';
 
 @Injectable()
 export class BookingService {
@@ -57,6 +61,19 @@ export class BookingService {
   async retrieveAllBookings(
     retrieveBookingsDto: RetrieveBookingsDto,
   ): Promise<any> {
+    if (
+      retrieveBookingsDto?.flag !== BookingStatus.APPROVED &&
+      retrieveBookingsDto?.flag !== BookingStatus.REJECTED &&
+      retrieveBookingsDto?.flag !== BookingStatus.PENDING
+    ) {
+      throw new RpcException(
+        this.errR({
+          message: 'Invalid Flag',
+          status: HttpStatus.BAD_REQUEST,
+        }),
+      );
+    }
+
     try {
       const {
         limit,
@@ -98,19 +115,88 @@ export class BookingService {
 
   async retrieveSingleBooking(bookingId: string): Promise<any> {
     try {
-      const theBoking = await this.bookingRepository.findBooking({
+      const theBooking = await this.bookingRepository.findBooking({
         _id: bookingId,
       });
-      if (!theBoking) {
+      if (!theBooking) {
         throw new RpcException(
           this.errR({
-            message: 'Plane not found',
+            message: 'Booking not found',
             status: HttpStatus.NOT_FOUND,
           }),
         );
       }
 
-      return theBoking;
+      return theBooking;
+    } catch (error) {
+      throw new RpcException(
+        this.errR({
+          message: error?.message ? error.message : this.ISE,
+          status: error?.error?.status,
+        }),
+      );
+    }
+  }
+
+  /**
+   * @Responsibility: flight booking service method to perform booking action
+   *
+   * @param bookingActionDto
+   * @returns {Promise<any>}
+   */
+
+  async bookingAction(bookingActionDto: BookingActionDto): Promise<any> {
+    try {
+      const { bookingId, flag, rejectionReason } = bookingActionDto;
+
+      if (
+        flag !== BookingActionFlags.APPROVE &&
+        flag !== BookingActionFlags.REJECT
+      ) {
+        throw new RpcException(
+          this.errR({
+            message: 'Invalid flag',
+            status: HttpStatus.BAD_REQUEST,
+          }),
+        );
+      }
+
+      const theBooking = await this.bookingRepository.findBooking({
+        _id: bookingId,
+      });
+      if (!theBooking) {
+        throw new RpcException(
+          this.errR({
+            message: 'Booking not found',
+            status: HttpStatus.NOT_FOUND,
+          }),
+        );
+      }
+
+      /* For appreoval of flight booking */
+      if (flag === BookingActionFlags.APPROVE) {
+        await this.bookingRepository.updateBooking(
+          { _id: theBooking?._id },
+          {
+            status: BookingStatus.APPROVED,
+            approvalDate: moment().utc().toDate(),
+          },
+        );
+      }
+
+      /* For rejection of flight booking */
+      if (flag === BookingActionFlags.REJECT) {
+        await this.bookingRepository.updateBooking(
+          { _id: theBooking?._id },
+          {
+            status: BookingStatus.REJECTED,
+            rejectionDate: moment().utc().toDate(),
+            rejectionReason,
+          },
+        );
+      }
+
+      return {};
     } catch (error) {
       throw new RpcException(
         this.errR({
