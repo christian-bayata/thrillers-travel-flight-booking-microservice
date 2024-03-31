@@ -29,13 +29,13 @@ export class Booking {
   @Prop({ type: Date, required: true })
   arrivalDate: Date;
 
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date, required: false })
   approvalDate: Date;
 
-  @Prop({ type: Date, required: true })
+  @Prop({ type: Date, required: false })
   rejectionDate: Date;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: false })
   rejectionReason: string;
 
   @Prop({ type: String, required: true })
