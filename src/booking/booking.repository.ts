@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { PropDataInput } from 'src/common/utils/util.interface';
 import { Booking, BookingDocument } from './schemas/booking.schema';
 import { RetrieveBookingsDto } from './dto/retrieve-bookings.dto';
-import * as moment from 'Moment';
+import * as moment from 'moment';
 import { PlaneUtility } from 'src/plane/plane.utility';
 import { BookingStatus } from './interfaces/utils/util.enum';
 

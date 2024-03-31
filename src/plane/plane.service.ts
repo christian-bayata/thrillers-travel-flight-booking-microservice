@@ -7,7 +7,6 @@ import { PlaneRepository } from './plane.repository';
 import { RetrievePlanesDto } from './dto/retrieve-planes.dto';
 import { Observable, lastValueFrom } from 'rxjs';
 import { SubscriberPattern } from 'src/common/interfaces/subscriber-pattern.interface';
-import { RetrieveBookingsDto } from 'src/booking/dto/retrieve-bookings.dto';
 
 @Injectable()
 export class PlaneService {
@@ -28,7 +27,6 @@ export class PlaneService {
 
   async createPlane(createPlaneDto: CreatePlaneDto): Promise<any> {
     try {
-      // console.log(createPlaneDto);
       const thePlane = await this.planeRepository.findPlane({
         registrationNumber: createPlaneDto?.registrationNumber,
       });
